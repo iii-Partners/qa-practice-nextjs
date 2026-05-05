@@ -1,36 +1,39 @@
 # qa-practice-nextjs
 
-A viiibin **practice repo**. Bare Next.js 15 (App Router) + TypeScript +
-Tailwind + Turbopack scaffold paired with a [`SPEC.md`](./SPEC.md) describing
-exactly what the agent should build.
+A viiibin **practice repo**. Bare Next.js (App Router) + TypeScript +
+Tailwind scaffold paired with a [`SPEC.md`](./SPEC.md) describing exactly
+what the agent should build.
+
+## Stack
+
+- Next.js **14.2.35** + React **18.3.1** + Tailwind **3.4**
+- App Router + TypeScript (strict)
+- Dev server on `0.0.0.0:3000`
+
+## Why Next 14, not Next 15?
+
+E2B's official Next.js template ([`e2b-dev/fragments`](https://github.com/e2b-dev/fragments))
+and their docs at <https://e2b.mintlify.app/docs/template/examples/nextjs.md>
+both pin to Next 14. Next 15 + React 19 + RSC streaming has a documented
+incompatibility with E2B's preview tunnel — React hydration silently fails
+because the tunnel does not preserve the progressive-flush streaming that
+RSC depends on. Tracked in [viiibin#1181](https://github.com/iii-Partners/viiibin/issues/1181)
+and E2B [#539](https://github.com/e2b-dev/E2B/issues/539).
+
+When E2B ships tunnel support for Next 15 + RSC, this repo bumps. Until
+then, Next 14 LTS is the canonical stack for "Next.js works in viiibin
+end-to-end."
 
 ## Use it
 
 1. Open viiibin → New Project → Import from GitHub
 2. Paste: `https://github.com/iii-Partners/qa-practice-nextjs`
 3. Once the workspace loads, ask the agent: **"Read SPEC.md and build it."**
-4. Watch the preview update with the implemented feature.
-
-## What you get
-
-- Next.js 15 App Router + React 19 + TypeScript (strict)
-- Tailwind 4 (via `@import "tailwindcss"` in globals.css)
-- Dev server bound to 0.0.0.0:3000 (so viiibin's preview proxy finds it)
-- A clean `app/page.tsx` placeholder — no demo content
-- A standard `SPEC.md` with strict, parseable acceptance criteria
 
 ## Framework gotcha — `"use client"`
 
-Next.js App Router renders components on the server by default. Any component
-with state, event handlers (like `onClick`), or browser APIs needs the
-`"use client"` directive at the top of the file. The agent should know this;
-the SPEC's `click-then-text` assertion will fail if the agent forgets and
-wires an `onClick` to a server component.
-
-## Why "practice"?
-
-Part of viiibin's framework validation matrix
-([milestone M57](https://github.com/iii-Partners/viiibin/milestone/103)).
+App Router renders components on the server by default. Components with
+event handlers (`onClick`) need `"use client"` at the top of the file.
 
 ## Local sanity check
 
